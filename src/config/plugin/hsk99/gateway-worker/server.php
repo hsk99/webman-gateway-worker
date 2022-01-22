@@ -16,7 +16,8 @@ return [
     ],
     'Json' => [
         'type'                 => 'Gateway',
-        'listen'               => 'Json://0.0.0.0:8801',
+        'listen'               => 'tcp://0.0.0.0:8801',
+        'protocol'             => \Hsk99\WebmanGatewayWorker\Protocols\Json::class,
         'count'                => 1,
         'lanIp'                => '127.0.0.1',
         'startPort'            => 8820,

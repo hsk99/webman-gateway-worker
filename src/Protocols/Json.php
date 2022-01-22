@@ -1,12 +1,12 @@
 <?php
 
-namespace Protocols;
+namespace Hsk99\WebmanGatewayWorker\Protocols;
 
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
-use Protocols\JsonTcpHead;
-use Protocols\JsonTcpEof;
-use Protocols\JsonWebSocket;
+use Hsk99\WebmanGatewayWorker\Protocols\JsonTcpHead;
+use Hsk99\WebmanGatewayWorker\Protocols\JsonTcpEof;
+use Hsk99\WebmanGatewayWorker\Protocols\JsonWebSocket;
 
 /**
  * Json 组合协议

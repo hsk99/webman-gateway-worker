@@ -1,6 +1,6 @@
 <?php
 
-namespace Protocols;
+namespace Hsk99\WebmanGatewayWorker\Protocols;
 
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Websocket;
