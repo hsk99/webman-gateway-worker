@@ -20,7 +20,7 @@ return [
         'constructor' => ['config' => [
             'registerAddress' => '127.0.0.1:8810',
             'secretKey'       => 'hsk99',
-            'eventHandler'    => '',
+            // 'eventHandler'    => '',
             'name'            => 'event',
         ]],
         'bootstrap'   => []
