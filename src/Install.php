@@ -9,9 +9,9 @@ class Install
     /**
      * @var array
      */
-    protected static $pathRelation = array(
+    protected static $pathRelation = [
         'config/plugin/hsk99/gateway-worker' => 'config/plugin/hsk99/gateway-worker',
-    );
+    ];
 
     /**
      * Install
@@ -20,7 +20,6 @@ class Install
     public static function install()
     {
         static::installByRelation();
-        self::appendStartupFile();
     }
 
     /**
@@ -30,7 +29,6 @@ class Install
     public static function uninstall()
     {
         self::uninstallByRelation();
-        self::removeStartupFile();
     }
 
     /**
@@ -67,52 +65,6 @@ class Install
                 unlink($path);
             }*/
             remove_dir($path);
-        }
-    }
-
-    /**
-     * 追加启动加载
-     *
-     * @author HSK
-     * @date 2022-01-13 15:11:48
-     *
-     * @return void
-     */
-    public static function appendStartupFile()
-    {
-        $append           = "require_once base_path() . '/vendor/hsk99/webman-gateway-worker/src/start.php';";
-        $startFile        = base_path() . '/start.php';
-        $startFileContent = file_get_contents($startFile);
-
-        if (false === strpos($startFileContent, $append)) {
-            $search  = "Worker::runAll();";
-            $replace = $append . "\n\nWorker::runAll();";
-            $startFileContent = str_replace($search, $replace, $startFileContent);
-
-            file_put_contents($startFile, $startFileContent);
-        }
-    }
-
-    /**
-     * 去除启动加载
-     *
-     * @author HSK
-     * @date 2022-01-13 15:11:45
-     *
-     * @return void
-     */
-    public static function removeStartupFile()
-    {
-        $remove           = "require_once base_path() . '/vendor/hsk99/webman-gateway-worker/src/start.php';";
-        $startFile        = base_path() . '/start.php';
-        $startFileContent = file_get_contents($startFile);
-
-        if (false !== strpos($startFileContent, $remove)) {
-            $search  = $remove . "\n\n";
-            $replace = '';
-            $startFileContent = str_replace($search, $replace, $startFileContent);
-
-            file_put_contents($startFile, $startFileContent);
         }
     }
 

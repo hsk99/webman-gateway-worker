@@ -1,18 +1,18 @@
 <?php
 
-namespace Hsk99\WebmanGatewayWorker\Callback;
+namespace Hsk99\WebmanGatewayWorker;
 
 use Webman\Config;
 use support\Log;
 use GatewayWorker\Lib\Gateway;
 
 /**
- * BusinessWorker 回调设置
+ * 业务处理
  *
  * @author HSK
- * @date 2021-12-30 16:48:58
+ * @date 2022-02-15 16:02:50
  */
-class BusinessWorker
+class Events
 {
     /**
      * 自定义回调类
@@ -40,13 +40,15 @@ class BusinessWorker
      */
     public static function onWorkerStart(\GatewayWorker\BusinessWorker $worker)
     {
-        self::$workerName = $worker->name;
-
         Config::reload(config_path(), ['route', 'container']);
 
-        $config = config('gateway_worker.' . $worker->name, []);
+        self::$workerName = $worker->name;
 
-        self::$handler = $config['handler'] ?? null;
+        self::$handler = $worker->customizeEventHandler ?? null;
+
+        if (isset(self::$handler) && !class_exists(self::$handler)) {
+            echo "process error: class " . self::$handler . " not exists\r\n";
+        }
 
         require_once base_path() . '/support/bootstrap.php';
 
