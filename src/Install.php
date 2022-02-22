@@ -11,6 +11,7 @@ class Install
      */
     protected static $pathRelation = [
         'config/plugin/hsk99/gateway-worker' => 'config/plugin/hsk99/gateway-worker',
+        'app/gateway/event'                  => 'app/gateway/event',
     ];
 
     /**
