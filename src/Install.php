@@ -58,6 +58,10 @@ class Install
     public static function uninstallByRelation()
     {
         foreach (static::$pathRelation as $source => $dest) {
+            if ('app/gateway/event' === $dest) {
+                continue;
+            }
+
             $path = base_path() . "/$dest";
             if (!is_dir($path) && !is_file($path)) {
                 continue;
