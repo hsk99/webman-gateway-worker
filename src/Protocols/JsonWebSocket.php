@@ -4,6 +4,7 @@ namespace Hsk99\WebmanGatewayWorker\Protocols;
 
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Websocket;
+use Hsk99\WebmanGatewayWorker\Util;
 
 /**
  * JsonWebSocket 协议
@@ -44,6 +45,8 @@ class JsonWebSocket
     {
         $buffer = json_encode($buffer, 320);
 
+        Util::debug($connection, $buffer, 'response');
+
         return Websocket::encode($buffer, $connection);
     }
 
@@ -61,6 +64,8 @@ class JsonWebSocket
     public static function decode(string $buffer, TcpConnection $connection): array
     {
         $buffer = Websocket::decode($buffer, $connection);
+
+        Util::debug($connection, $buffer, 'request');
 
         return json_decode($buffer, true) ?? [];
     }

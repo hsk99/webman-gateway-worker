@@ -3,7 +3,6 @@
 namespace Hsk99\WebmanGatewayWorker;
 
 use Webman\Config;
-use support\Log;
 use GatewayWorker\Lib\Gateway;
 use Hsk99\WebmanGatewayWorker\Util;
 
@@ -140,22 +139,6 @@ class Events
      */
     public static function onMessage(string $clientId, $message)
     {
-        if (config('plugin.hsk99.gateway-worker.app.debug')) {
-            echo "\033[31;1m" . date('Y-m-d H:i:s') . "\tDebug：" . self::$workerName . "\t" . var_export($message, true) . PHP_EOL . "\033[0m";
-        }
-
-        $time = microtime(true);
-        Log::debug('', [
-            'worker'         => self::$workerName,                                           // 运行进程
-            'time'           => date('Y-m-d H:i:s.', $time) . substr($time, 11),             // 请求时间（包含毫秒时间）
-            'channel'        => 'request',                                                   // 日志通道
-            'level'          => 'DEBUG',                                                     // 日志等级
-            'message'        => '',                                                          // 描述
-            'client_address' => $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'],     // 请求客户端地址
-            'server_address' => $_SERVER['GATEWAY_ADDR'] . ':' . $_SERVER['GATEWAY_PORT'],   // 请求服务端地址
-            'context'        => $message ?? "",                                              // 请求数据
-        ]);
-
         try {
             if (
                 null === self::$handler

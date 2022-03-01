@@ -3,6 +3,7 @@
 namespace Hsk99\WebmanGatewayWorker\Protocols;
 
 use Workerman\Connection\TcpConnection;
+use Hsk99\WebmanGatewayWorker\Util;
 
 /**
  * JsonTcp 协议 （数据包 + 结尾符）
@@ -48,6 +49,8 @@ class JsonTcpEof
     {
         $json = json_encode($buffer, 320);
 
+        Util::debug($connection, $json, 'response');
+
         return $json . chr(0);
     }
 
@@ -65,6 +68,8 @@ class JsonTcpEof
     public static function decode(string $buffer, TcpConnection $connection): array
     {
         $buffer = rtrim($buffer, chr(0));
+
+        Util::debug($connection, $buffer, 'request');
 
         return json_decode($buffer, true) ?? [];
     }

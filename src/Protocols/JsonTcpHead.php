@@ -3,6 +3,7 @@
 namespace Hsk99\WebmanGatewayWorker\Protocols;
 
 use Workerman\Connection\TcpConnection;
+use Hsk99\WebmanGatewayWorker\Util;
 
 /**
  * JsonTcp 协议 （包头 + 报数据）
@@ -61,6 +62,8 @@ class JsonTcpHead
         $json = json_encode($buffer, 320);
         $len  = strlen($json);
 
+        Util::debug($connection, $json, 'response');
+
         return pack('N', $len) . $json;
     }
 
@@ -79,6 +82,8 @@ class JsonTcpHead
     {
         $unpackData = unpack("NdataLen", $buffer);
         $data       = substr($buffer, self::PACKAGE_FIXED_LENGTH, $unpackData['dataLen']);
+
+        Util::debug($connection, $data, 'request');
 
         return json_decode($data, true) ?? [];
     }
