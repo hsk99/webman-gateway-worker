@@ -208,7 +208,7 @@ class Events
                 break;
             case 3:
                 list($module, $controller, $action) = explode('.', $event, 3);
-                $module     = "\\" . Util::parseName($module, 1);
+                $module     = "\\" . Util::parseName($module, 1, false);
                 $controller = Util::parseName($controller, 1);
                 $action     = Util::parseName($action, 1, false);
                 break;
