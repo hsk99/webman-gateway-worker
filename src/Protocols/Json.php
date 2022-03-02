@@ -56,10 +56,10 @@ class Json
                 return JsonWebSocket::input($buffer, $connection);
                 break;
             case 'JsonTcpHead':
-                return JsonTcpHead::input($buffer, $connection);
+                return 1 + JsonTcpHead::input(substr($buffer, 1), $connection);
                 break;
             case 'JsonTcpEof':
-                return JsonTcpEof::input($buffer, $connection);
+                return 1 + JsonTcpEof::input(substr($buffer, 1), $connection);
                 break;
         }
     }
@@ -84,10 +84,10 @@ class Json
                 return JsonWebSocket::encode($buffer, $connection);
                 break;
             case 'JsonTcpHead':
-                return JsonTcpHead::encode($buffer, $connection);
+                return chr(65) + JsonTcpHead::encode($buffer, $connection);
                 break;
             case 'JsonTcpEof':
-                return JsonTcpEof::encode($buffer, $connection);
+                return chr(66) + JsonTcpEof::encode($buffer, $connection);
                 break;
         }
     }
@@ -112,10 +112,10 @@ class Json
                 return JsonWebSocket::decode($buffer, $connection);
                 break;
             case 'JsonTcpHead':
-                return JsonTcpHead::decode($buffer, $connection);
+                return JsonTcpHead::decode(substr($buffer, 1), $connection);
                 break;
             case 'JsonTcpEof':
-                return JsonTcpEof::decode($buffer, $connection);
+                return JsonTcpEof::decode(substr($buffer, 1), $connection);
                 break;
         }
     }
