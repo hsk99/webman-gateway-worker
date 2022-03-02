@@ -81,7 +81,7 @@ class Util
             'context'        => $buffer ?? "",                                     // 数据
         ];
 
-        \support\Log::debug('', $data);
+        \support\Log::debug($message, $data);
 
         if (config('plugin.hsk99.gateway-worker.app.debug')) {
             switch ($message) {
@@ -95,7 +95,7 @@ class Util
             }
             echo "\033[$color;1m" . date('Y-m-d H:i:s', $time) . "\t"
                 . $connection->worker->name . "\t"
-                . $buffer . PHP_EOL . "\033[0m";
+                . var_export($buffer, true) . PHP_EOL . "\033[0m";
         }
     }
 }
