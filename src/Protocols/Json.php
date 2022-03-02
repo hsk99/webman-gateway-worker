@@ -33,18 +33,15 @@ class Json
             $request = new Request($buffer);
 
             switch (true) {
-                case 'upgrade' === strtolower($request->header('connection')):
-                    $protocol = 'JsonWebSocket';
-                    break;
                 case chr(65) === substr($buffer, 0, 1):
                     $protocol = 'JsonTcpHead';
                     break;
                 case chr(66) === substr($buffer, 0, 1):
                     $protocol = 'JsonTcpEof';
                     break;
+                case 'upgrade' === strtolower($request->header('connection')):
                 default:
-                    $connection->close(json_encode(['cmd' => 'error', 'msg' => '非法连接'], 320), true);
-                    return 0;
+                    $protocol = 'JsonWebSocket';
                     break;
             }
 
