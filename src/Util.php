@@ -71,6 +71,10 @@ class Util
      */
     public static function debug(\Workerman\Connection\TcpConnection $connection, $buffer, $message = '')
     {
+        if (is_array($temp = json_decode($buffer, true))) {
+            $buffer = $temp;
+        }
+
         $time = microtime(true);
         $data = [
             'worker'         => $connection->worker->name,                         // 运行进程
@@ -78,7 +82,7 @@ class Util
             'message'        => $message,                                          // 描述
             'client_address' => $connection->getRemoteAddress(),                   // 客户端地址
             'server_address' => $connection->getLocalAddress(),                    // 服务端地址
-            'context'        => $buffer ?? "",                                     // 数据
+            'context'        => $buffer ?? [],                                     // 数据
         ];
 
         \support\Log::debug($message, $data);
@@ -93,9 +97,10 @@ class Util
                     $color = 31;
                     break;
             }
+
             echo "\033[$color;1m" . date('Y-m-d H:i:s', $time) . "\t"
                 . $connection->worker->name . "\t"
-                . var_export($buffer, true) . PHP_EOL . "\033[0m";
+                . json_encode($data, 448) . PHP_EOL . "\033[0m";
         }
     }
 }

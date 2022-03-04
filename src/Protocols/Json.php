@@ -81,10 +81,10 @@ class Json
                 return JsonWebSocket::encode($buffer, $connection);
                 break;
             case 'JsonTcpHead':
-                return chr(65) + JsonTcpHead::encode($buffer, $connection);
+                return chr(65) . JsonTcpHead::encode($buffer, $connection);
                 break;
             case 'JsonTcpEof':
-                return chr(66) + JsonTcpEof::encode($buffer, $connection);
+                return chr(66) . JsonTcpEof::encode($buffer, $connection);
                 break;
         }
     }
